@@ -58,6 +58,39 @@ class TransformFields extends \Lime\Helper {
         return $field;
     }
 
+    public function _image(array $field): array {
+        $field['type'] = 'asset';
+        $options = fixToArray($field['options'] ?? []);
+        $field['opts'] = $options;
+        return $field;
+    }
+
+    public function _set(array $field): array {
+        $field['opts'] = fixToArray($field['opts'] ?? []);
+        $transformedField = $this->convertModelFields($field['options']['fields']);
+        $field['opts']['fields'] = $transformedField;
+        return $field;
+    }
+
+    public function _collectionlinkselect(array $field): array {
+        $field['type'] = 'contentItemLink';
+
+        $options = fixToArray($field['options'] ?? []);
+
+        $link = $options['link'] ?? null;
+        $display = $options['display'] ?? null;
+
+        $transformedField = [
+            'link' => $link,
+            'filter' => null,
+            'display' => $display ? "\${data.$display}" : null,
+        ];
+
+        $field['opts'] = $transformedField;
+
+        return $field;
+    }
+
     public function _select(array $field): array {
 
         $field['type'] = 'select';
@@ -233,8 +266,6 @@ class TransformFields extends \Lime\Helper {
      * Transform gallery to asset (multiple)
      */
     public function galleryToAssetMultiple($entry, $field) {
-
-        
 
         return $entry;
 
