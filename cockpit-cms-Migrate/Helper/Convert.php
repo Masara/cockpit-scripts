@@ -561,7 +561,7 @@ class Convert extends \Lime\Helper {
         unset($entry['_by']);
 
         // set default state to "published"
-        $entry['_state'] = $entry['_state'] ?? 0;
+        $entry['_state'] = $entry['_state'] ?? 1;
 
         // TODO: transform assets
 
